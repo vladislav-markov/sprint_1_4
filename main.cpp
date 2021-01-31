@@ -2491,7 +2491,6 @@ TestPaginator()
                                 return result;
                             }();
 
-
                         const vector< size_t > actual_pages_sizes = [&found_pages]()
                             {
                                 vector< size_t > result;
