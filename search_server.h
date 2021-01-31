@@ -281,7 +281,6 @@ class SearchServer
                             return result;
                         }();
 
-
                     const std::vector< Document > & matched_documents
                             = [&document_to_relevance, this]()
                         {
