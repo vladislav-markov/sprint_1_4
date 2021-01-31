@@ -30,15 +30,12 @@ class SearchServer
                 : stop_words_( ParseStopWords( input_stop_words ) )
                 {
                     using namespace std;
-
                 }
 
             explicit SearchServer( const std::string & stop_words_text )
                 : SearchServer( SplitIntoWords( stop_words_text ) )
                 {
                     using namespace std;
-
-
                 }
 
             void

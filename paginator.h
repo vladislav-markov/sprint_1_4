@@ -25,21 +25,22 @@ class IteratorRange
                     range_begin_( range_begin ),
                     range_end_  ( range_end   )
                 {
-        using namespace std;
-
+                    using namespace std;
                 }
 
             Iterator
             begin() const
                 {
-        using namespace std;
+                    using namespace std;
+
                     return range_begin_;
                 }
 
             Iterator
             end() const
                 {
-        using namespace std;
+                    using namespace std;
+
                     return range_end_;
                 }
 
@@ -60,21 +61,22 @@ class Paginator
                 : pages_(
                         ConstructPages( range_begin, range_end, page_size ) )
                 {
-
-        using namespace std;
+                    using namespace std;
                 }
 
             auto
             begin() const
                 {
-        using namespace std;
+                    using namespace std;
+
                     return pages_.begin();
                 }
 
             auto
             end() const
                 {
-        using namespace std;
+                    using namespace std;
+
                     return pages_.end();
                 }
 
@@ -86,7 +88,8 @@ class Paginator
                     Iterator range_end,
                     std::size_t page_size )
                 {
-        using namespace std;
+                    using namespace std;
+
                     std::vector< IteratorRange< Iterator > > result;
 
                     auto cur_it_range_begin = range_begin;
@@ -133,6 +136,7 @@ auto Paginate(
         std::size_t page_size )
     {
         using namespace std;
+
         return
                 Paginator( begin( c ), end( c ), page_size );
     }
@@ -141,6 +145,7 @@ std::ostream &
 operator<<( std::ostream & out, const Document & document )
     {
         using namespace std;
+
         return
                 out << "{ "s
                     << "document_id = "s << document.id        << ", "s
@@ -156,6 +161,7 @@ operator<<(
         const IteratorRange< Iterator > & iterator_range )
     {
         using namespace std;
+
         for( auto it = iterator_range.begin(); it != iterator_range.end(); ++it )
             {
                 out << *it;
