@@ -1,15 +1,6 @@
 #pragma once
 
-#include <algorithm>
 #include <cmath>
-#include <exception>
-#include <iostream>
-#include <map>
-#include <numeric>
-#include <set>
-#include <string>
-#include <utility>
-#include <vector>
 #include <deque>
 
 #include "search_server.h"

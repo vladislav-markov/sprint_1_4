@@ -1,15 +1,10 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <exception>
-
 #include "search_server.h"
 #include "request_queue.h"
 #include "paginator.h"
 
-
 #include "test.h"
 
+using namespace std;
 
 void
 PrintDocument( const Document & document )
