@@ -2455,15 +2455,15 @@ TestPaginator()
         const string & stop_words = "and"s;
         const string & query = "cat"s;
 
-        constexpr int param_max_number_of_docs_to_add = 20;
-        constexpr int param_max_page_size = 20;
+        constexpr int param_max_number_of_docs_to_add_for_verification_in_test = 20;
+        constexpr int param_max_page_size_for_verification_in_test = 20;
 
         for( int param_number_of_docs_to_add = 0
-                ; param_number_of_docs_to_add < param_max_number_of_docs_to_add
+                ; param_number_of_docs_to_add < param_max_number_of_docs_to_add_for_verification_in_test
                 ; ++ param_number_of_docs_to_add )
             {
                 for( int param_page_size = 0
-                        ; param_page_size < param_max_page_size
+                        ; param_page_size < param_max_page_size_for_verification_in_test
                         ; ++ param_page_size )
                     {
                         SearchServer search_server( stop_words );
