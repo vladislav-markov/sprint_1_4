@@ -774,14 +774,7 @@ class RequestQueue
                 }
 
             vector< Document >
-            AddFindRequest( const string & raw_query, DocumentStatus status )
-                {
-                    // напишите реализацию
-                    return {};
-                }
-
-            vector< Document >
-            AddFindRequest( const string & raw_query )
+            AddFindRequest( const string & raw_query, DocumentStatus status = DocumentStatus::ACTUAL )
                 {
                     // напишите реализацию
                     return {};
