@@ -672,27 +672,36 @@ class Paginator
                 {
                     auto cur_it_range_begin = range_begin;
 
-                    while( distance( cur_it_range_begin, range_end ) > 0 )
+                    if( page_size == 0 )
                         {
-                            auto cur_it_range_end = cur_it_range_begin;
-
-                            int advance_distance = 0;
-
-                            if( const int dis1 = distance( cur_it_range_begin, range_end )
-                                    ; dis1 < static_cast< int >( page_size ) )
-                                {
-                                    advance_distance = dis1;
-                                }
-                            else
-                                {
-                                    advance_distance = page_size;
-                                }
-
-                            advance( cur_it_range_end, advance_distance );
-                            pages_.push_back( IteratorRange( cur_it_range_begin, cur_it_range_end ) );
-
-                            cur_it_range_begin = cur_it_range_end;
+                            pages_.push_back( IteratorRange( range_end, range_end ) );
                         }
+
+                    else
+                        {
+                            while( distance( cur_it_range_begin, range_end ) > 0 )
+                                {
+                                    auto cur_it_range_end = cur_it_range_begin;
+
+                                    int advance_distance = 0;
+
+                                    if( const int dis1 = distance( cur_it_range_begin, range_end )
+                                            ; dis1 < static_cast< int >( page_size ) )
+                                        {
+                                            advance_distance = dis1;
+                                        }
+                                    else
+                                        {
+                                            advance_distance = page_size;
+                                        }
+
+                                    advance( cur_it_range_end, advance_distance );
+                                    pages_.push_back( IteratorRange( cur_it_range_begin, cur_it_range_end ) );
+
+                                    cur_it_range_begin = cur_it_range_end;
+                                }
+                        }
+
                 }
 
             auto
@@ -829,6 +838,31 @@ operator<<( ostream & out, DocumentStatus status )
 
         return
                 out << document_status_to_str.at( status );
+    }
+
+ostream &
+operator<<( ostream & out, const vector< size_t > & vector_of_size_t )
+    {
+        out << '[';
+
+        bool first = true;
+
+        for( size_t elem : vector_of_size_t )
+            {
+                if( first )
+                    {
+                        out << elem;
+                        first = false;
+                    }
+                else
+                    {
+                        out << ", "s << elem;
+                    }
+            }
+
+        out << ']';
+
+        return out;
     }
 
 void
@@ -2415,7 +2449,95 @@ TestGetDocumentIdOverflow()
 void
 TestPaginator()
     {
-        ASSERT( false );
+        constexpr DocumentStatus document_status = DocumentStatus::ACTUAL;
+        const vector< int > & ratings = { 1, 2, 3 };
+        const string & document_content = "cat and dog"s;
+        const string & stop_words = "and"s;
+        const string & query = "cat"s;
+
+        constexpr int param_max_number_of_docs_to_add = 20;
+        constexpr int param_max_page_size = 20;
+
+        for( int param_number_of_docs_to_add = 0
+                ; param_number_of_docs_to_add < param_max_number_of_docs_to_add
+                ; ++ param_number_of_docs_to_add )
+            {
+                for( int param_page_size = 0
+                        ; param_page_size < param_max_page_size
+                        ; ++ param_page_size )
+                    {
+                        SearchServer search_server( stop_words );
+
+                        for( int i = 0; i < param_number_of_docs_to_add; ++i )
+                            {
+                                search_server.AddDocument( i, document_content, document_status, ratings );
+                            }
+
+                        const auto & found_pages = [&search_server, &query, param_page_size]()
+                            {
+                                const auto & p = Paginate(
+                                        search_server.FindTopDocuments( query ),
+                                        param_page_size );
+
+                                auto result = vector( 0, *( p.end() ) );
+
+                                for( auto page = p.begin()
+                                        ; page != p.end()
+                                        ; ++page )
+                                    {
+                                        result.push_back( *page );
+                                    }
+
+                                return result;
+                            }();
+
+
+                        const vector< size_t > actual_pages_sizes = [&found_pages]()
+                            {
+                                vector< size_t > result;
+
+                                for( size_t i = 0; i < found_pages.size(); ++i )
+                                    {
+                                        result.push_back(
+                                                distance( found_pages[ i ].begin(),
+                                                found_pages[ i ].end() ) );
+                                    }
+
+                                return result;
+                            }();
+
+                        const vector< size_t > expected_pages_sizes =
+                        [param_number_of_docs_to_add, param_page_size]()
+                            {
+                                if( param_page_size == 0 )
+                                    {
+                                        return vector< size_t >( 1, 0 );
+                                    }
+
+                                const int expected_number_of_found_docs
+                                        = std::min(
+                                                param_number_of_docs_to_add,
+                                                MAX_RESULT_DOCUMENT_COUNT );
+
+
+                                vector< size_t > result = vector(
+                                        expected_number_of_found_docs / param_page_size,
+                                        static_cast< size_t >( param_page_size ) );
+
+                                if( const int remainder =
+                                            expected_number_of_found_docs
+                                            % param_page_size
+                                        ; remainder != 0 )
+                                    {
+                                        result.push_back( remainder );
+                                    }
+
+                                return result;
+                            }();
+
+                        ASSERT_EQUAL( actual_pages_sizes, expected_pages_sizes );
+                    }
+            }
     }
 
 // Функция TestSearchServer является точкой входа для запуска тестов
@@ -2573,5 +2695,4 @@ main()
                 }
         }
     }
-
 
