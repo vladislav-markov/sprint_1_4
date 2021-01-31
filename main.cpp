@@ -2619,15 +2619,12 @@ TestRequestQueue()
             {
                 search_server.AddDocument( i, query, document_status, ratings );
             }
-
         ASSERT_EQUAL( request_queue.GetNoResultRequests(), 0 );
 
-        // 1439 запросов с нулевым результатом
         for( int i = 0; i < 1439; ++i )
             {
                 request_queue.AddFindRequest( "empty request"s );
             }
-
         ASSERT_EQUAL( request_queue.GetNoResultRequests(), 1439 );
 
         request_queue.AddFindRequest( "empty request"s );
