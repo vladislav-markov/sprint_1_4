@@ -2519,7 +2519,6 @@ TestPaginator()
                                                 param_number_of_docs_to_add,
                                                 MAX_RESULT_DOCUMENT_COUNT );
 
-
                                 vector< size_t > result = vector(
                                         expected_number_of_found_docs / param_page_size,
                                         static_cast< size_t >( param_page_size ) );
