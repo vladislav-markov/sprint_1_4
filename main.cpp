@@ -773,6 +773,7 @@ operator<<(
 class RequestQueue
     {
         public:
+
             explicit RequestQueue( const SearchServer & search_server )
                 {
                     // напишите реализацию
@@ -2605,7 +2606,47 @@ TestPaginator()
 void
 TestRequestQueue()
     {
-        ASSERT( false );
+        constexpr DocumentStatus document_status = DocumentStatus::ACTUAL;
+        const vector< int > & ratings = { 1, 2, 3 };
+        const string & document_content = "cat and dog"s;
+        const string & stop_words = "and"s;
+        const string & query = "cat"s;
+
+        SearchServer search_server( stop_words );
+        RequestQueue request_queue( search_server );
+
+        for( int i = 1; i <= 5; ++i )
+            {
+                search_server.AddDocument( i, query, document_status, ratings );
+            }
+
+        ASSERT_EQUAL( request_queue.GetNoResultRequests(), 0 );
+
+        // 1439 запросов с нулевым результатом
+        for( int i = 0; i < 1439; ++i )
+            {
+                request_queue.AddFindRequest( "empty request"s );
+            }
+
+        ASSERT_EQUAL( request_queue.GetNoResultRequests(), 1439 );
+
+        request_queue.AddFindRequest( "empty request"s );
+        ASSERT_EQUAL( request_queue.GetNoResultRequests(), 1440 );
+
+        for( int i = 0; i < 10; ++i )
+            {
+                request_queue.AddFindRequest( "empty request"s );
+            }
+        ASSERT_EQUAL( request_queue.GetNoResultRequests(), 1440 );
+
+        request_queue.AddFindRequest( "cat"s );
+        ASSERT_EQUAL( request_queue.GetNoResultRequests(), 1439 );
+
+        request_queue.AddFindRequest( "big collar"s );
+        ASSERT_EQUAL( request_queue.GetNoResultRequests(), 1439 );
+
+        request_queue.AddFindRequest( "cat"s );
+        ASSERT_EQUAL( request_queue.GetNoResultRequests(), 1438 );
     }
 
 // Функция TestSearchServer является точкой входа для запуска тестов
