@@ -142,7 +142,6 @@ operator<<( std::ostream & out, const Document & document )
                     << "rating = "s      << document.rating    << " }"s;
     }
 
-
 template < typename Iterator >
 std::ostream &
 operator<<(

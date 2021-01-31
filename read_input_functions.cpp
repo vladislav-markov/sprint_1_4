@@ -19,4 +19,3 @@ ReadLineWithNumber()
         return result;
     }
 
-

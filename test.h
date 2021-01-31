@@ -1283,7 +1283,6 @@ TestMinusWords()
                                 return result;
                             }();
 
-
                         int documents_contained_from_expected_in_actual = 0;
                         int document_contained_from_banned_in_actual    = 0;
 
@@ -1579,7 +1578,6 @@ void
 TestConstructorInitialisation()
     {
         using namespace std;
-
 
         //         SearchServer doesn't have the default constructor
         //         {
