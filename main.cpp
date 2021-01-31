@@ -775,8 +775,9 @@ class RequestQueue
         public:
 
             explicit RequestQueue( const SearchServer & search_server )
+                : server_( search_server )
                 {
-                    // напишите реализацию
+
                 }
 
             // сделаем "обёртки" для всех методов поиска, чтобы сохранять результаты для нашей статистики
@@ -784,14 +785,21 @@ class RequestQueue
             vector< Document >
             AddFindRequest( const string & raw_query, DocumentPredicate document_predicate )
                 {
-                    return {};
-                    // напишите реализацию
+                    if( requests_.size() == sec_in_day_ )
+                        {
+                            requests_.pop_front();
+                        }
+
+                    const vector< Document > & found_docs = server_.FindTopDocuments( raw_query, document_predicate );
+
+                    requests_.push_back( { !found_docs.empty() } );
+                    return found_docs;
                 }
 
+            template < typename DocumentPredicate >
             vector< Document >
-            AddFindRequest( const string & raw_query, DocumentStatus status = DocumentStatus::ACTUAL )
+            AddFindRequest( const string & raw_query, DocumentStatus status )
                 {
-                    // напишите реализацию
                     return AddFindRequest(
                             raw_query,
                             [status]( int document_id, DocumentStatus document_status, int rating )
@@ -801,23 +809,39 @@ class RequestQueue
                                 } );
                 }
 
+            vector< Document >
+            AddFindRequest( const string & raw_query )
+                {
+                    return AddFindRequest(
+                            raw_query,
+                            []( int document_id, DocumentStatus document_status, int rating )
+                                {
+                                    return
+                                            document_status == DocumentStatus::ACTUAL;
+                                } );
+                }
+
             int
             GetNoResultRequests() const
                 {
-                    // напишите реализацию
-                    return 0;
+                    const int number_of_no_result_requests = count_if(
+                            requests_.begin(),
+                            requests_.end(),
+                            []( const QueryResult query ){ return !query.has_result; } );
+
+                    return number_of_no_result_requests;
                 }
 
         private:
 
             struct QueryResult
                 {
-                    // определите, что должно быть в структуре
+                    const bool has_result = false;
                 };
 
             deque< QueryResult > requests_;
             const static int sec_in_day_ = 1440;
-            // возможно, здесь вам понадобится что-то ещё
+            const SearchServer & server_;
     };
 
 // -------- Начало модульных тестов поисковой системы ----------
