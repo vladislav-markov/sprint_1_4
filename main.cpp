@@ -670,12 +670,39 @@ class Paginator
                     Iterator range_begin,
                     Iterator range_end,
                     size_t page_size )
+                : pages_(
+                        ConstructPages( range_begin, range_end, page_size ) )
                 {
+
+                }
+
+            auto
+            begin() const
+                {
+                    return pages_.begin();
+                }
+
+            auto
+            end() const
+                {
+                    return pages_.end();
+                }
+
+        private:
+
+            vector< IteratorRange< Iterator > >
+            ConstructPages(
+                    Iterator range_begin,
+                    Iterator range_end,
+                    size_t page_size )
+                {
+                    vector< IteratorRange< Iterator > > result;
+
                     auto cur_it_range_begin = range_begin;
 
                     if( page_size == 0 )
                         {
-                            pages_.push_back( IteratorRange( range_end, range_end ) );
+                            result.push_back( IteratorRange( range_end, range_end ) );
                         }
 
                     else
@@ -697,29 +724,16 @@ class Paginator
                                         }
 
                                     advance( cur_it_range_end, advance_distance );
-                                    pages_.push_back( IteratorRange( cur_it_range_begin, cur_it_range_end ) );
+                                    result.push_back( IteratorRange( cur_it_range_begin, cur_it_range_end ) );
 
                                     cur_it_range_begin = cur_it_range_end;
                                 }
                         }
 
+                    return result;
                 }
 
-            auto
-            begin() const
-                {
-                    return pages_.begin();
-                }
-
-            auto
-            end() const
-                {
-                    return pages_.end();
-                }
-
-        private:
-
-            vector< IteratorRange< Iterator > > pages_;
+            const vector< IteratorRange< Iterator > > pages_;
     };
 
 template < typename Container >
