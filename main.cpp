@@ -780,7 +780,6 @@ class RequestQueue
 
                 }
 
-            // сделаем "обёртки" для всех методов поиска, чтобы сохранять результаты для нашей статистики
             template < typename DocumentPredicate >
             vector< Document >
             AddFindRequest( const string & raw_query, DocumentPredicate document_predicate )
@@ -793,6 +792,7 @@ class RequestQueue
                     const vector< Document > & found_docs = server_.FindTopDocuments( raw_query, document_predicate );
 
                     requests_.push_back( { !found_docs.empty() } );
+
                     return found_docs;
                 }
 
