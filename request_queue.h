@@ -60,6 +60,6 @@ class RequestQueue
                 };
 
             std::deque< QueryResult > requests_;
-            const static int sec_in_day_ = 1440;
+            constexpr static int sec_in_day_ = 1440;
             const SearchServer & server_;
     };
