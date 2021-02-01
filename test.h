@@ -6,8 +6,6 @@
 
 using namespace std::string_literals;
 
-// -------- Начало модульных тестов поисковой системы ----------
-
 void
 AssertImpl(
         bool t,
@@ -1913,5 +1911,3 @@ TestSearchServer()
         RUN_TEST( TestStatus                                      );
         RUN_TEST( TestStructDocument                              );
     }
-
-// --------- Окончание модульных тестов поисковой системы -----------

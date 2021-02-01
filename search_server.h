@@ -1,5 +1,4 @@
 #pragma once
-//Вставьте сюда своё решение из урока «‎Очередь запросов».‎
 
 #include <algorithm>
 #include <iostream>
