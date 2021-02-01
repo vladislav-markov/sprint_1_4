@@ -102,14 +102,14 @@ SearchServer::GetDocumentId( const int index ) const
         /*                                                                                          *
             *      Допустим, максимальное значение типа < int > = 2.                                   *
             *      И документы = { 0, 1, 2 };                                                          *
-            *      значит size_t = 3                                                                   *
+            *      значит std::size_t = 3                                                                   *
             *      Тип аргумента-индекса - < int >. То есть, мы можем ожидать максимум значение 2.     *
-            *      Получается, считаем корректной проверку ( index '<' size_t ), т.к. ( 2 '<' 3 )      *
+            *      Получается, считаем корректной проверку ( index '<' std::size_t ), т.к. ( 2 '<' 3 )      *
             *      соответственно, на проверку '=>' бросаем исключение,                                *
             *      чтобы не вызывать advance() ниже для больших значений входного аргумента            *
             */
 
-        else if( const size_t input_index = static_cast< size_t >( index )
+        else if( const std::size_t input_index = static_cast< std::size_t >( index )
                 ; input_index >= documents_.size() )
             {
                 throw std::out_of_range( error_message );
@@ -349,8 +349,8 @@ SearchServer::ComputeWordInverseDocumentFreq(
         using namespace std;
 
         return std::log(
-                    1.0
-                        * GetDocumentCount()
-                                            / word_to_document_freqs_.at( word ).size() );
+                        1.0
+                            * GetDocumentCount()
+                                                / word_to_document_freqs_.at( word ).size() );
     }
 

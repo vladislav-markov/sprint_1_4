@@ -100,7 +100,7 @@ operator<<( std::ostream & out, DocumentStatus status )
     }
 
 std::ostream &
-operator<<( std::ostream & out, const std::vector< size_t > & vector_of_size_t )
+operator<<( std::ostream & out, const std::vector< std::size_t > & vector_of_size_t )
     {
         using namespace std;
 
@@ -108,7 +108,7 @@ operator<<( std::ostream & out, const std::vector< size_t > & vector_of_size_t )
 
         bool first = true;
 
-        for( size_t elem : vector_of_size_t )
+        for( std::size_t elem : vector_of_size_t )
             {
                 if( first )
                     {
@@ -140,7 +140,7 @@ TestExcludeStopWordsFromAddedDocumentContent()
             server.AddDocument( doc_id, content, DocumentStatus::ACTUAL, ratings );
 
             const std::vector< Document > & found_docs = server.FindTopDocuments( "in"s );
-            ASSERT_EQUAL( found_docs.size(), static_cast< size_t >( 1 ) );
+            ASSERT_EQUAL( found_docs.size(), static_cast< std::size_t >( 1 ) );
             const Document & doc0 = found_docs[ 0 ];
             ASSERT_EQUAL( doc0.id, doc_id );
         }
@@ -932,7 +932,7 @@ TestRelevance()
 
                 const std::vector< Document > & found_docs = server.FindTopDocuments( " "s );
 
-                ASSERT_EQUAL( found_docs.size(), static_cast< size_t >( 0 ) );
+                ASSERT_EQUAL( found_docs.size(), static_cast< std::size_t >( 0 ) );
             }
 
             {
@@ -946,7 +946,7 @@ TestRelevance()
 
                 const std::vector< Document > & found_docs = server.FindTopDocuments( " "s );
 
-                ASSERT_EQUAL( found_docs.size(), static_cast< size_t >( 0 ) );
+                ASSERT_EQUAL( found_docs.size(), static_cast< std::size_t >( 0 ) );
             }
 
             {
@@ -960,7 +960,7 @@ TestRelevance()
 
                 const std::vector< Document > & found_docs = server.FindTopDocuments( " "s );
 
-                ASSERT_EQUAL( found_docs.size(), static_cast< size_t >( 0 ) );
+                ASSERT_EQUAL( found_docs.size(), static_cast< std::size_t >( 0 ) );
             }
 
             {
@@ -1021,7 +1021,7 @@ TestRelevance()
                         { 2,     ( log(3./1)*(0./4) + log(3./1)*(1./4) + log(3./2)*(0./4) )      }
                     };
 
-                ASSERT_EQUAL( found_docs.size(), static_cast< size_t >( 2 ) );
+                ASSERT_EQUAL( found_docs.size(), static_cast< std::size_t >( 2 ) );
 
                 ASSERT_EQUAL( document_to_expected_relevance.at( 0 ), calculated_relevance.at( 0 ) );
                 ASSERT_EQUAL( document_to_expected_relevance.at( 2 ), calculated_relevance.at( 2 ) );
@@ -1104,12 +1104,12 @@ TestSorting()
 
                 const std::vector< Document > & found_docs = server.FindTopDocuments( query );
 
-                if( found_docs.size() > static_cast< size_t >( 1 ) )
+                if( found_docs.size() > static_cast< std::size_t >( 1 ) )
                     {
                         Document lhs = found_docs.at( 0 );
                         Document rhs = found_docs.at( 1 );
 
-                        for( size_t i = 0; ( i + 1 ) < found_docs.size(); ++i )
+                        for( std::size_t i = 0; ( i + 1 ) < found_docs.size(); ++i )
                             {
                                 if( i > 0 )
                                     {
@@ -1792,11 +1792,11 @@ TestPaginator()
                                 return result;
                             }();
 
-                        const std::vector< size_t > actual_pages_sizes = [&found_pages]()
+                        const std::vector< std::size_t > actual_pages_sizes = [&found_pages]()
                             {
-                                std::vector< size_t > result;
+                                std::vector< std::size_t > result;
 
-                                for( size_t i = 0; i < found_pages.size(); ++i )
+                                for( std::size_t i = 0; i < found_pages.size(); ++i )
                                     {
                                         result.push_back(
                                                 distance( found_pages[ i ].begin(),
@@ -1806,12 +1806,12 @@ TestPaginator()
                                 return result;
                             }();
 
-                        const std::vector< size_t > expected_pages_sizes =
+                        const std::vector< std::size_t > expected_pages_sizes =
                         [param_number_of_docs_to_add, param_page_size]()
                             {
                                 if( param_page_size == 0 )
                                     {
-                                        return std::vector< size_t >( 1, 0 );
+                                        return std::vector< std::size_t >( 1, 0 );
                                     }
 
                                 const int expected_number_of_found_docs
@@ -1819,9 +1819,9 @@ TestPaginator()
                                                 param_number_of_docs_to_add,
                                                 MAX_RESULT_DOCUMENT_COUNT );
 
-                                std::vector< size_t > result = std::vector(
+                                std::vector< std::size_t > result = std::vector(
                                         expected_number_of_found_docs / param_page_size,
-                                        static_cast< size_t >( param_page_size ) );
+                                        static_cast< std::size_t >( param_page_size ) );
 
                                 if( const int remainder =
                                             expected_number_of_found_docs
