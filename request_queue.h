@@ -15,7 +15,7 @@ class RequestQueue
 
             template < typename DocumentPredicate >
             std::vector< Document >
-            AddFindRequest( const std::string & raw_query, DocumentPredicate document_predicate )
+            AddFindRequest( const std::string & raw_query, const DocumentPredicate document_predicate )
                 {
                     if( requests_.size() == sec_in_day_ )
                         {
@@ -30,7 +30,7 @@ class RequestQueue
                 }
 
             std::vector< Document >
-            AddFindRequest( const std::string & raw_query, DocumentStatus status );
+            AddFindRequest( const std::string & raw_query, const DocumentStatus status );
 
             std::vector< Document >
             AddFindRequest( const std::string & raw_query );

@@ -29,7 +29,7 @@ RequestQueue::AddFindRequest( const std::string & raw_query )
     }
 
 std::vector< Document >
-RequestQueue::AddFindRequest( const std::string & raw_query, DocumentStatus status )
+RequestQueue::AddFindRequest( const std::string & raw_query, const DocumentStatus status )
     {
         if( requests_.size() == sec_in_day_ )
             {
