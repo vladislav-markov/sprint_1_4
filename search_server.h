@@ -110,8 +110,8 @@ class SearchServer
                     std::set< std::string > result;
 
                     std::transform(
-                            input_stop_words.begin(),
-                            input_stop_words.end(),
+                            input_stop_words.cbegin(),
+                            input_stop_words.cend(),
                             std::inserter( result, result.cbegin() ),
                             []( const std::string & stop_word )
                                 {
