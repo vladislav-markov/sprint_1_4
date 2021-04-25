@@ -39,7 +39,6 @@ SearchServer::AddDocument(
         const DocumentStatus status,
         const std::vector< int > & ratings )
     {
-
         if( document_id < 0 )
             {
                 using namespace std::string_literals;
