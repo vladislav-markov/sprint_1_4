@@ -39,16 +39,19 @@ SearchServer::AddDocument(
         const DocumentStatus status,
         const std::vector< int > & ratings )
     {
-        using namespace std::string_literals;
 
         if( document_id < 0 )
             {
+                using namespace std::string_literals;
+
                 throw std::invalid_argument(
                         "Попытка добавить документ с отрицательным id."s );
             }
 
         if( documents_.count( document_id ) )
             {
+                using namespace std::string_literals;
+
                 throw std::invalid_argument(
                         "Попытка добавить документ c id ранее добавленного документа."s );
             }
@@ -108,18 +111,18 @@ SearchServer::GetDocumentCount() const
 int
 SearchServer::GetDocumentId( const int index ) const
     {
-        using namespace std::string_literals;
+        if(
+            index < 0
+            ||
+            static_cast< std::size_t >( index ) >= documents_.size() )
+        {
+            using namespace std::string_literals;
 
-            if(
-                index < 0
-                ||
-                static_cast< std::size_t >( index ) >= documents_.size() )
-            {
-                throw std::out_of_range(
-                        "Индекс переданного документа выходит за пределы"s
-                        +
-                        " допустимого диапазона (0; количество документов)."s );
-            }
+            throw std::out_of_range(
+                    "Индекс переданного документа выходит за пределы"s
+                    +
+                    " допустимого диапазона (0; количество документов)."s );
+        }
 
         return std::next( documents_.cbegin(), index )->first;
     }

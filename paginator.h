@@ -42,7 +42,8 @@ class IteratorRange
 
         private:
 
-            Iterator first_, last_;
+            Iterator first_;
+            Iterator last_;
             std::size_t size_;
     };
 

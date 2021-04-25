@@ -13,7 +13,6 @@ class RequestQueue
 
             explicit RequestQueue( const SearchServer & search_server );
 
-            // сделаем "обёртки" для всех методов поиска, чтобы сохранять результаты для нашей статистики
             template < typename DocumentPredicate >
             std::vector< Document >
             AddFindRequest( const std::string & raw_query, DocumentPredicate document_predicate )
@@ -47,7 +46,9 @@ class RequestQueue
                 };
 
             std::deque< QueryResult > requests_;
-            const static int sec_in_day_ = 1440;
+
+            constexpr const static int sec_in_day_ = 1440;
+
             const SearchServer & server_;
     };
 

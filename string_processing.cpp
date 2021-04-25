@@ -49,10 +49,10 @@ IsValidHyphenWordSingleMinus( const std::string & word )
 void
 ValidateRawWord( const std::string & raw_word )
     {
-        using namespace std::string_literals;
-
         if( !IsValidWord( raw_word ) )
             {
+                using namespace std::string_literals;
+
                 throw std::invalid_argument(
                         "В словах поискового запроса есть"s
                         +
@@ -61,12 +61,16 @@ ValidateRawWord( const std::string & raw_word )
 
         if( !IsValidHyphenWordSingleMinus( raw_word ) )
             {
+                using namespace std::string_literals;
+
                 throw std::invalid_argument(
                         "Отсутствие текста после символа 'минус'."s );
             }
 
         if( !IsValidHyphenWordMultiMinus( raw_word ) )
             {
+                using namespace std::string_literals;
+
                 throw std::invalid_argument(
                         "Наличие более чем одного минуса перед словами,"s
                         +
