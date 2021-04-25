@@ -9,8 +9,8 @@
 #include <utility>
 #include <vector>
 
-#include "search_server.h"
 #include "document.h"
+#include "search_server.h"
 #include "string_processing.h"
 
 SearchServer::SearchServer( const std::vector< std::string >( ) )
