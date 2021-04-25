@@ -42,9 +42,9 @@ class IteratorRange
 
         private:
 
-            Iterator first_;
-            Iterator last_;
-            std::size_t size_;
+            const Iterator first_;
+            const Iterator last_;
+            const std::size_t size_;
     };
 
 template < typename Iterator >
