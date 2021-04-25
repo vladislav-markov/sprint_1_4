@@ -60,6 +60,7 @@ SearchServer::AddDocument(
         std::vector< std::string > document_words = SplitIntoWords( document );
 
         std::vector< std::string > words;
+        words.reserve( document_words.size() );
 
         std::copy_if(
                 std::make_move_iterator( document_words.begin() ),
@@ -182,6 +183,7 @@ SearchServer::SplitIntoWordsNoStop( const std::string & text ) const
         std::vector< std::string > all_words = SplitIntoWords( text );
 
         std::vector< std::string > result;
+        result.reserve( all_words.size() );
 
         std::copy_if(
                 std::make_move_iterator( all_words.begin() ),
