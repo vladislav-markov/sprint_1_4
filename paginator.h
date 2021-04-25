@@ -70,16 +70,10 @@ class Paginator
                     Iterator begin,
                     const Iterator end,
                     const std::size_t page_size )
+                :
+                    pages_( CreatePages( begin, end, page_size ) )
                 {
-                    for( std::size_t left = distance( begin, end ); left > 0; )
-                        {
-                            const std::size_t current_page_size = std::min( page_size, left );
-                            const Iterator current_page_end = std::next( begin, current_page_size );
-                            pages_.push_back( { begin, current_page_end } );
 
-                            left -= current_page_size;
-                            begin = current_page_end;
-                        }
                 }
 
             auto
@@ -102,7 +96,28 @@ class Paginator
 
         private:
 
-            std::vector< IteratorRange< Iterator > > pages_;
+            static std::vector< IteratorRange< Iterator > >
+            CreatePages(
+                    Iterator begin,
+                    const Iterator end,
+                    const std::size_t page_size )
+                {
+                    std::vector< IteratorRange< Iterator > > result;
+
+                    for( std::size_t left = distance( begin, end ); left > 0; )
+                        {
+                            const std::size_t current_page_size = std::min( page_size, left );
+                            const Iterator current_page_end = std::next( begin, current_page_size );
+                            result.push_back( { begin, current_page_end } );
+
+                            left -= current_page_size;
+                            begin = current_page_end;
+                        }
+
+                    return result;
+                }
+
+            const std::vector< IteratorRange< Iterator > > pages_;
     };
 
 template < typename Container >
