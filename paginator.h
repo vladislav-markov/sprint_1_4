@@ -11,7 +11,9 @@ class IteratorRange
 
         public:
 
-            IteratorRange( Iterator begin, Iterator end )
+            IteratorRange(
+                    const Iterator begin,
+                    const Iterator end )
                 :
                     first_( begin ),
                     last_( end ),
@@ -64,7 +66,10 @@ class Paginator
 
         public:
 
-            Paginator( Iterator begin, Iterator end, std::size_t page_size )
+            Paginator(
+                    Iterator begin,
+                    const Iterator end,
+                    const std::size_t page_size )
                 {
                     for( std::size_t left = distance( begin, end ); left > 0; )
                         {
@@ -102,9 +107,10 @@ class Paginator
 
 template < typename Container >
 auto
-Paginate( const Container& c, std::size_t page_size )
+Paginate(
+        const Container & c,
+        const std::size_t page_size )
     {
         return Paginator( std::begin( c ), std::end(c), page_size );
     }
-
 
