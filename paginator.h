@@ -67,7 +67,7 @@ class Paginator
         public:
 
             Paginator(
-                    Iterator begin,
+                    const Iterator begin,
                     const Iterator end,
                     const std::size_t page_size )
                 :
