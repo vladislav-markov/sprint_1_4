@@ -27,7 +27,9 @@ SearchServer::SearchServer( const std::string & stop_words_text )
 
 SearchServer::SearchServer( const std::string_view stop_words_text )
     :
-        SearchServer( SplitIntoWords( static_cast< std::string >( stop_words_text ) ) )
+        SearchServer(
+                SplitIntoWords(
+                        static_cast< std::string >( stop_words_text ) ) )
     {
 
     }
