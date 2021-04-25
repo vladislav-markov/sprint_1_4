@@ -111,17 +111,17 @@ int
 SearchServer::GetDocumentId( const int index ) const
     {
         if(
-            index < 0
-            ||
-            static_cast< std::size_t >( index ) >= documents_.size() )
-        {
-            using namespace std::string_literals;
+                index < 0
+                ||
+                static_cast< std::size_t >( index ) >= documents_.size() )
+            {
+                using namespace std::string_literals;
 
-            throw std::out_of_range(
-                    "Индекс переданного документа выходит за пределы"s
-                    +
-                    " допустимого диапазона (0; количество документов)."s );
-        }
+                throw std::out_of_range(
+                        "Индекс переданного документа выходит за пределы"s
+                        +
+                        " допустимого диапазона (0; количество документов)."s );
+            }
 
         return std::next( documents_.cbegin(), index )->first;
     }
