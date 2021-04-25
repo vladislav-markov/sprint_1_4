@@ -1,15 +1,15 @@
+#pragma once
+
+#include <iostream>
+
 struct Document
     {
         Document() = default;
 
-        Document( int id_, double relevance_, int rating_ )
-            :
-                id( id_ ),
-                relevance( relevance_ ),
-                rating( rating_ )
-            {
-
-            }
+        Document(
+                const int id_,
+                const double relevance_,
+                const int rating_ );
 
         int id = 0;
         double relevance = 0.0;
@@ -24,3 +24,8 @@ enum class DocumentStatus
         REMOVED,
     };
 
+void
+PrintDocument( const Document & document );
+
+std::ostream &
+operator<<( std::ostream & out, const Document & document );

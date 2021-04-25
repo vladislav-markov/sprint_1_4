@@ -1,159 +1,110 @@
 #pragma once
 
-#include "search_server.h"
-
-using namespace std::string_literals;
+#include <algorithm>
+#include <iostream>
+#include <utility>
+#include <vector>
 
 template < typename Iterator >
 class IteratorRange
     {
 
         public:
-            IteratorRange( Iterator range_begin, Iterator range_end )
+
+            IteratorRange( Iterator begin, Iterator end )
                 :
-                    range_begin_( range_begin ),
-                    range_end_  ( range_end   )
-                {
-                    using namespace std;
-                }
+                    first_( begin ),
+                    last_( end ),
+                    size_( distance( first_, last_ ) )
+            {
+
+            }
 
             Iterator
             begin() const
                 {
-                    using namespace std;
-
-                    return range_begin_;
+                    return first_;
                 }
 
             Iterator
             end() const
                 {
-                    using namespace std;
-
-                    return range_end_;
+                    return last_;
                 }
 
-        private:
-            Iterator range_begin_;
-            Iterator range_end_;
-    };
-
-template < typename Iterator >
-class Paginator
-    {
-        public:
-
-            Paginator(
-                    Iterator range_begin,
-                    Iterator range_end,
-                    std::size_t page_size )
-                : pages_(
-                        ConstructPages( range_begin, range_end, page_size ) )
+            std::size_t
+            size() const
                 {
-                    using namespace std;
-                }
-
-            auto
-            begin() const
-                {
-                    using namespace std;
-
-                    return pages_.begin();
-                }
-
-            auto
-            end() const
-                {
-                    using namespace std;
-
-                    return pages_.end();
+                    return size_;
                 }
 
         private:
 
-            std::vector< IteratorRange< Iterator > >
-            ConstructPages(
-                    Iterator range_begin,
-                    Iterator range_end,
-                    std::size_t page_size )
-                {
-                    using namespace std;
-
-                    std::vector< IteratorRange< Iterator > > result;
-
-                    auto cur_it_range_begin = range_begin;
-
-                    if( page_size == 0 )
-                        {
-                            result.push_back( IteratorRange( range_end, range_end ) );
-                        }
-
-                    else
-                        {
-                            while( distance( cur_it_range_begin, range_end ) > 0 )
-                                {
-                                    auto cur_it_range_end = cur_it_range_begin;
-
-                                    int advance_distance = 0;
-
-                                    if( const int dis1 = distance( cur_it_range_begin, range_end )
-                                            ; dis1 < static_cast< int >( page_size ) )
-                                        {
-                                            advance_distance = dis1;
-                                        }
-                                    else
-                                        {
-                                            advance_distance = page_size;
-                                        }
-
-                                    advance( cur_it_range_end, advance_distance );
-                                    result.push_back( IteratorRange( cur_it_range_begin, cur_it_range_end ) );
-
-                                    cur_it_range_begin = cur_it_range_end;
-                                }
-                        }
-
-                    return result;
-                }
-
-            const std::vector< IteratorRange< Iterator > > pages_;
+            Iterator first_, last_;
+            std::size_t size_;
     };
-
-template < typename Container >
-auto Paginate(
-        const Container & c,
-        std::size_t page_size )
-    {
-        using namespace std;
-
-        return
-                Paginator( begin( c ), end( c ), page_size );
-    }
-
-std::ostream &
-operator<<( std::ostream & out, const Document & document )
-    {
-        using namespace std;
-
-        return
-                out << "{ "s
-                    << "document_id = "s << document.id        << ", "s
-                    << "relevance = "s   << document.relevance << ", "s
-                    << "rating = "s      << document.rating    << " }"s;
-    }
 
 template < typename Iterator >
 std::ostream &
 operator<<(
         std::ostream & out,
-        const IteratorRange< Iterator > & iterator_range )
+        const IteratorRange< Iterator > & range )
     {
-        using namespace std;
-
-        for( auto it = iterator_range.begin(); it != iterator_range.end(); ++it )
+        for( Iterator it = range.begin(); it != range.end(); ++it )
             {
                 out << *it;
             }
 
         return out;
     }
+
+template < typename Iterator >
+class Paginator
+    {
+
+        public:
+
+            Paginator( Iterator begin, Iterator end, std::size_t page_size )
+                {
+                    for( std::size_t left = distance( begin, end ); left > 0; )
+                        {
+                            const std::size_t current_page_size = std::min( page_size, left );
+                            const Iterator current_page_end = std::next( begin, current_page_size );
+                            pages_.push_back( { begin, current_page_end } );
+
+                            left -= current_page_size;
+                            begin = current_page_end;
+                        }
+                }
+
+            auto
+            begin() const
+                {
+                    return pages_.begin();
+                }
+
+            auto
+            end() const
+                {
+                    return pages_.end();
+                }
+
+            std::size_t
+            size() const
+                {
+                    return pages_.size();
+                }
+
+        private:
+
+            std::vector< IteratorRange< Iterator > > pages_;
+    };
+
+template < typename Container >
+auto
+Paginate( const Container& c, std::size_t page_size )
+    {
+        return Paginator( std::begin( c ), std::end(c), page_size );
+    }
+
+
