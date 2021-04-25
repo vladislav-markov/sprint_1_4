@@ -97,7 +97,7 @@ class Paginator
 
         private:
 
-            static std::vector< IteratorRange< Iterator > >
+            auto
             CreatePages(
                     Iterator begin,
                     const Iterator end,

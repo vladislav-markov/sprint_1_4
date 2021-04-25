@@ -206,11 +206,7 @@ SearchServer::ComputeAverageRating( const std::vector< int > & ratings )
         const int ratings_sum = std::accumulate(
                 ratings.cbegin(),
                 ratings.cend(),
-                0,
-                []( const int lhs, const int rhs )
-                    {
-                        return lhs + rhs;
-                    } );
+                0 );
 
         const int ratings_size = static_cast< int >( ratings.size() );
 
