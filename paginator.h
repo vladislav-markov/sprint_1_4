@@ -105,7 +105,7 @@ class Paginator
                 {
                     std::vector< IteratorRange< Iterator > > result;
 
-                    for( std::size_t left = distance( begin, end ); left > 0; )
+                    for( std::size_t left = std::distance( begin, end ); left > 0; )
                         {
                             const std::size_t current_page_size = std::min( page_size, left );
                             const Iterator current_page_end = std::next( begin, current_page_size );
