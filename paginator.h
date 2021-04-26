@@ -14,9 +14,9 @@ class IteratorRange
                     const Iterator begin,
                     const Iterator end )
                 :
-                    first_( begin ),
-                    last_( end ),
-                    size_( distance( first_, last_ ) )
+                    first_( begin )
+                    , last_( end )
+                    , size_( distance( first_, last_ ) )
                 {}
 
             Iterator

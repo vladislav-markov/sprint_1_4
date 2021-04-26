@@ -7,9 +7,9 @@ Document::Document(
         const double relevance_,
         const int rating_ )
     :
-        id( id_ ),
-        relevance( relevance_ ),
-        rating( rating_ )
+        id( id_ )
+        , relevance( relevance_ )
+        , rating( rating_ )
     {}
 
 void
