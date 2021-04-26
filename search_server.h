@@ -5,13 +5,12 @@
 #include <map>
 #include <set>
 #include <string>
-#include <string_view>
 #include <vector>
 
 #include "document.h"
 #include "string_processing.h"
 
-constexpr const int MAX_RESULT_DOCUMENT_COUNT = 5;
+constexpr int MAX_RESULT_DOCUMENT_COUNT = 5;
 
 class SearchServer
     {
@@ -20,19 +19,13 @@ class SearchServer
 
             SearchServer() = delete;
 
-            explicit SearchServer( const std::vector< std::string >( ) );
-
             explicit SearchServer( const std::string & stop_words_text );
-
-            explicit SearchServer( const std::string_view stop_words_text );
 
             template < typename StopWordsCollection >
             explicit SearchServer( const StopWordsCollection & input_stop_words )
                 :
                     stop_words_( ParseStopWords( input_stop_words ) )
-                {
-
-                }
+                {}
 
             void
             AddDocument(
@@ -151,8 +144,7 @@ class SearchServer
             ParseQuery( const std::string & text ) const;
 
             double
-            ComputeWordInverseDocumentFreq(
-                    const std::string & word ) const;
+            ComputeWordInverseDocumentFreq( const std::string & word ) const;
 
             template < typename DocumentPredicate >
             std::vector< Document >

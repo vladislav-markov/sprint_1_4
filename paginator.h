@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <iostream>
-#include <utility>
 #include <vector>
 
 template < typename Iterator >
@@ -18,9 +17,7 @@ class IteratorRange
                     first_( begin ),
                     last_( end ),
                     size_( distance( first_, last_ ) )
-            {
-
-            }
+                {}
 
             Iterator
             begin() const
@@ -72,10 +69,8 @@ class Paginator
                     const Iterator end,
                     const std::size_t page_size )
                 :
-                    pages_( CreatePages( begin, end, page_size ) )
-                {
-
-                }
+                    pages_( Paginator::CreatePages( begin, end, page_size ) )
+            {}
 
             auto
             begin() const
@@ -97,7 +92,7 @@ class Paginator
 
         private:
 
-            auto
+            static auto
             CreatePages(
                     Iterator begin,
                     const Iterator end,

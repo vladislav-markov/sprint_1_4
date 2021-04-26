@@ -1,38 +1,16 @@
 #include <algorithm>
 #include <cmath>
-#include <exception>
 #include <iterator>
 #include <numeric>
 #include <stdexcept>
-#include <string>
-#include <string_view>
-#include <utility>
-#include <vector>
 
-#include "document.h"
 #include "search_server.h"
 #include "string_processing.h"
-
-SearchServer::SearchServer( const std::vector< std::string >( ) )
-    {
-
-    }
 
 SearchServer::SearchServer( const std::string & stop_words_text )
     :
         SearchServer( SplitIntoWords( stop_words_text ) )
-    {
-
-    }
-
-SearchServer::SearchServer( const std::string_view stop_words_text )
-    :
-        SearchServer(
-                SplitIntoWords(
-                        static_cast< std::string >( stop_words_text ) ) )
-    {
-
-    }
+    {}
 
 void
 SearchServer::AddDocument(
@@ -57,23 +35,11 @@ SearchServer::AddDocument(
                         "Попытка добавить документ c id ранее добавленного документа."s );
             }
 
-        std::vector< std::string > document_words = SplitIntoWords( document );
+        const std::vector< std::string > document_words = SplitIntoWordsNoStop( document );
 
-        std::vector< std::string > words;
-        words.reserve( document_words.size() );
+        const double inv_word_count = 1.0 / document_words.size();
 
-        std::copy_if(
-                std::make_move_iterator( document_words.begin() ),
-                std::make_move_iterator( document_words.end() ),
-                std::back_inserter( words ),
-                [this]( const std::string & word )
-                    {
-                        return !IsStopWord( word );
-                    } );
-
-        const double inv_word_count = 1.0 / words.size();
-
-        for( const std::string & word : words )
+        for( const std::string & word : document_words )
             {
                 word_to_document_freqs_[ word ][ document_id ] += inv_word_count;
             }

@@ -1,4 +1,4 @@
-#include <iostream>
+#include <string>
 
 #include "document.h"
 
@@ -10,9 +10,7 @@ Document::Document(
         id( id_ ),
         relevance( relevance_ ),
         rating( rating_ )
-    {
-
-    }
+    {}
 
 void
 PrintDocument( const Document & document )

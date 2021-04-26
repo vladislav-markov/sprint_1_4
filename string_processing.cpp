@@ -1,8 +1,5 @@
 #include <algorithm>
-#include <exception>
 #include <stdexcept>
-#include <string>
-#include <vector>
 
 #include "string_processing.h"
 
