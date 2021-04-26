@@ -5,30 +5,30 @@
 #include <vector>
 
 bool
-IsValidWord( const std::string & word );
+IsValidWord( const std::string & raw_word );
 
 bool
-IsValidMultiHyphenWord( const std::string & word );
+IsValidMultiHyphenWord( const std::string & raw_word );
 
 bool
-IsValidSingleHyphenWord( const std::string & word );
+IsValidSingleHyphenWord( const std::string & raw_word );
 
 void
 ValidateRawWord( const std::string & raw_word );
 
 template < typename StopWordsCollection >
 void
-ValidateRawWordsCollection( const StopWordsCollection & input_stop_words )
+ValidateRawWordsCollection( const StopWordsCollection & raw_stop_words )
     {
         std::for_each(
-                input_stop_words.cbegin(),
-                input_stop_words.cend(),
-                []( const std::string word ) -> void
+                raw_stop_words.cbegin(),
+                raw_stop_words.cend(),
+                []( const std::string raw_word ) -> void
                     {
-                        ValidateRawWord( word );
+                        ValidateRawWord( raw_word );
                     } );
     }
 
 std::vector< std::string >
-SplitIntoWords( const std::string & text );
+SplitIntoWords( const std::string & raw_text );
 

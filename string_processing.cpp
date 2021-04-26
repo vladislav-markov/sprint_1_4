@@ -4,12 +4,12 @@
 #include "string_processing.h"
 
 bool
-IsValidWord( const std::string & word )
+IsValidWord( const std::string & raw_word )
     {
         return
                 std::none_of(
-                        word.cbegin(),
-                        word.cend(),
+                        raw_word.cbegin(),
+                        raw_word.cend(),
                         []( const char c )
                             {
                                 return
@@ -20,26 +20,26 @@ IsValidWord( const std::string & word )
     }
 
 bool
-IsValidMultiHyphenWord( const std::string & word )
+IsValidMultiHyphenWord( const std::string & raw_word )
     {
         return
                 !(
-                    ( word.size() > 1 )
+                    ( raw_word.size() > 1 )
                     &&
-                    ( word.at( 0 ) == '-' )
+                    ( raw_word.at( 0 ) == '-' )
                     &&
-                    ( word.at( 1 ) == '-' )
+                    ( raw_word.at( 1 ) == '-' )
                 );
     }
 
 bool
-IsValidSingleHyphenWord( const std::string & word )
+IsValidSingleHyphenWord( const std::string & raw_word )
     {
         return
                 !(
-                    ( word.size() == 1 )
+                    ( raw_word.size() == 1 )
                     &&
-                    ( word.at( 0 ) == '-' )
+                    ( raw_word.at( 0 ) == '-' )
                 );
     }
 
@@ -76,28 +76,28 @@ ValidateRawWord( const std::string & raw_word )
     }
 
 std::vector< std::string >
-SplitIntoWords( const std::string & text )
+SplitIntoWords( const std::string & raw_text )
     {
         std::vector< std::string > words;
 
-        std::string word;
+        std::string raw_word;
 
-        for( const char c : text )
+        for( const char c : raw_text )
             {
                 if( c == ' ' )
                     {
-                        ValidateRawWord( word );
-                        words.push_back( word );
-                        word.clear();
+                        ValidateRawWord( raw_word );
+                        words.push_back( raw_word );
+                        raw_word.clear();
                     }
                 else
                     {
-                        word += c;
+                        raw_word += c;
                     }
             }
 
-        ValidateRawWord( word );
-        words.push_back( word );
+        ValidateRawWord( raw_word );
+        words.push_back( raw_word );
 
         return words;
     }
