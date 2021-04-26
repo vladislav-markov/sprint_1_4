@@ -70,7 +70,7 @@ class Paginator
                     const std::size_t page_size )
                 :
                     pages_( Paginator::CreatePages( begin, end, page_size ) )
-            {}
+                {}
 
             auto
             begin() const
