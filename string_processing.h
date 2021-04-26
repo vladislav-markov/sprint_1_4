@@ -29,7 +29,6 @@ ValidateRawWordsCollection( const StopWordsCollection & input_stop_words )
                     } );
     }
 
-
 std::vector< std::string >
 SplitIntoWords( const std::string & text );
 
