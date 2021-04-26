@@ -100,19 +100,13 @@ class SearchServer
             std::set< std::string >
             ParseStopWords( const StopWordsCollection & input_stop_words ) const
                 {
-                    std::set< std::string > result;
+                    ValidateRawWordsCollection( input_stop_words );
 
-                    std::transform(
-                            input_stop_words.cbegin(),
-                            input_stop_words.cend(),
-                            std::inserter( result, result.cbegin() ),
-                            []( const std::string & stop_word )
-                                {
-                                    ValidateRawWord( stop_word );
-                                    return stop_word;
-                                } );
-
-                    return result;
+                    return
+                            {
+                                input_stop_words.cbegin(),
+                                input_stop_words.cend()
+                            };
                 }
 
             bool
