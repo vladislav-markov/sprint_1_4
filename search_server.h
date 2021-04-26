@@ -22,9 +22,9 @@ class SearchServer
             explicit SearchServer( const std::string & stop_words_text );
 
             template < typename StopWordsCollection >
-            explicit SearchServer( const StopWordsCollection & input_stop_words )
+            explicit SearchServer( const StopWordsCollection & stop_words )
                 :
-                    stop_words_( ParseStopWords( input_stop_words ) )
+                    stop_words_( ParseStopWords( stop_words ) )
                 {}
 
             void
@@ -99,14 +99,14 @@ class SearchServer
 
             template < typename StopWordsCollection >
             std::set< std::string >
-            ParseStopWords( const StopWordsCollection & input_stop_words ) const
+            ParseStopWords( const StopWordsCollection & stop_words ) const
                 {
-                    ValidateRawWordsCollection( input_stop_words );
+                    ValidateRawWordsCollection( stop_words );
 
                     return
                             {
-                                input_stop_words.cbegin(),
-                                input_stop_words.cend()
+                                stop_words.cbegin(),
+                                stop_words.cend()
                             };
                 }
 
