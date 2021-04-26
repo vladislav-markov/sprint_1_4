@@ -41,6 +41,7 @@ class SearchServer
                     const DocumentPredicate document_predicate ) const
                 {
                     const Query query = ParseQuery( raw_query );
+
                     auto matched_documents = FindAllDocuments( query, document_predicate );
 
                     std::sort(

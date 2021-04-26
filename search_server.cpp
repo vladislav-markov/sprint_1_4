@@ -103,7 +103,6 @@ SearchServer::MatchDocument(
         const Query query = ParseQuery( raw_query );
 
         std::vector< std::string > matched_words;
-
         matched_words.reserve( query.plus_words.size() );
 
         for( const std::string & word : query.plus_words )
