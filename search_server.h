@@ -189,12 +189,11 @@ class SearchServer
                     for( const auto & [ document_id, relevance ] : document_to_relevance )
                         {
                             result.push_back(
-                                                Document
-                                                    {
-                                                        document_id,
-                                                        relevance,
-                                                        documents_.at( document_id ).rating
-                                                    } );
+                                    {
+                                        document_id,
+                                        relevance,
+                                        documents_.at( document_id ).rating
+                                    } );
                         }
 
                     return result;
