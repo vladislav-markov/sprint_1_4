@@ -8,10 +8,10 @@ bool
 IsValidWord( const std::string & word );
 
 bool
-IsValidHyphenWordMultiMinus( const std::string & word );
+IsValidMultiHyphenWord( const std::string & word );
 
 bool
-IsValidHyphenWordSingleMinus( const std::string & word );
+IsValidSingleHyphenWord( const std::string & word );
 
 void
 ValidateRawWord( const std::string & raw_word );

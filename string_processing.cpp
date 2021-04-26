@@ -20,7 +20,7 @@ IsValidWord( const std::string & word )
     }
 
 bool
-IsValidHyphenWordMultiMinus( const std::string & word )
+IsValidMultiHyphenWord( const std::string & word )
     {
         return
                 !(
@@ -33,7 +33,7 @@ IsValidHyphenWordMultiMinus( const std::string & word )
     }
 
 bool
-IsValidHyphenWordSingleMinus( const std::string & word )
+IsValidSingleHyphenWord( const std::string & word )
     {
         return
                 !(
@@ -56,7 +56,7 @@ ValidateRawWord( const std::string & raw_word )
                         " недопустимые символы с кодами от 0 до 31."s );
             }
 
-        if( !IsValidHyphenWordSingleMinus( raw_word ) )
+        if( !IsValidSingleHyphenWord( raw_word ) )
             {
                 using namespace std::string_literals;
 
@@ -64,7 +64,7 @@ ValidateRawWord( const std::string & raw_word )
                         "Отсутствие текста после символа 'минус'."s );
             }
 
-        if( !IsValidHyphenWordMultiMinus( raw_word ) )
+        if( !IsValidMultiHyphenWord( raw_word ) )
             {
                 using namespace std::string_literals;
 
