@@ -30,8 +30,7 @@ class RequestQueue
                     const DocumentStatus status );
 
             std::vector< Document >
-            AddFindRequest(
-                    const std::string & raw_query );
+            AddFindRequest( const std::string & raw_query );
 
             int
             GetNoResultRequests() const;
