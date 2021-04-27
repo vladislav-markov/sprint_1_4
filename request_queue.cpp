@@ -18,4 +18,3 @@ RequestQueue::GetNoResultRequests() const
         return number_of_no_result_requests;
     }
 
-

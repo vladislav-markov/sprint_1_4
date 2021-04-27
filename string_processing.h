@@ -20,13 +20,10 @@ template < typename StopWordsCollection >
 void
 ValidateRawWordsCollection( const StopWordsCollection & raw_stop_words )
     {
-        std::for_each(
-                raw_stop_words.cbegin(),
-                raw_stop_words.cend(),
-                []( const std::string raw_word ) -> void
-                    {
-                        ValidateRawWord( raw_word );
-                    } );
+        for( const std::string & raw_word : raw_stop_words )
+            {
+                ValidateRawWord( raw_word );
+            }
     }
 
 std::vector< std::string >

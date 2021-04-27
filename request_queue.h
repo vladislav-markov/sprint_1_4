@@ -1,6 +1,9 @@
 #pragma once
 
 #include <deque>
+#include <optional>
+
+#include <iostream>
 
 #include "search_server.h"
 
@@ -10,22 +13,47 @@ class RequestQueue
 
             explicit RequestQueue( const SearchServer & search_server );
 
-            template < typename SearchParameter = DocumentStatus >
+            template < typename SearchParameter >
             std::vector< Document >
             AddFindRequest(
                     const std::string & raw_query,
-                    const SearchParameter search_parameter = DocumentStatus::ACTUAL )
+                    std::optional< SearchParameter > search_parameter = std::nullopt )
                 {
                     if( requests_.size() == sec_in_day_ )
                         {
                             requests_.pop_front();
                         }
 
-                    const std::vector< Document > found_docs = server_.FindTopDocuments( raw_query, search_parameter );
+                    std::vector< Document > found_docs;
+
+                    if( search_parameter )
+                        {
+                            found_docs = server_.FindTopDocuments( raw_query, *search_parameter );
+                        }
+                    else
+                        {
+                            found_docs = server_.FindTopDocuments( raw_query );
+                        }
 
                     requests_.push_back( { !found_docs.empty() } );
 
                     return found_docs;
+                }
+
+            template < typename SearchParameter >
+            std::vector< Document >
+            AddFindRequest(
+                    const std::string & raw_query,
+                    SearchParameter search_parameter )
+                {
+                    return AddFindRequest( raw_query, std::optional< SearchParameter >( search_parameter ) );
+                }
+
+            std::vector< Document >
+            AddFindRequest(
+                    const std::string & raw_query )
+                {
+                    return AddFindRequest( raw_query, []() -> std::optional< DocumentStatus > { return std::nullopt; }() );
                 }
 
             int
