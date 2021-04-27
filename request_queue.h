@@ -1,9 +1,6 @@
 #pragma once
 
 #include <deque>
-#include <optional>
-
-#include <iostream>
 
 #include "search_server.h"
 
@@ -12,6 +9,27 @@ class RequestQueue
         public:
 
             explicit RequestQueue( const SearchServer & search_server );
+
+            template < typename SearchParameter >
+            std::vector< Document >
+            AddFindRequest(
+                    const std::string & raw_query,
+                    SearchParameter search_parameter )
+                {
+                    return AddFindRequest( raw_query, std::optional< SearchParameter >( search_parameter ) );
+                }
+
+            std::vector< Document >
+            AddFindRequest(
+                    const std::string & raw_query )
+                {
+                    return AddFindRequest( raw_query, []() -> std::optional< DocumentStatus > { return std::nullopt; }() );
+                }
+
+            int
+            GetNoResultRequests() const;
+
+        private:
 
             template < typename SearchParameter >
             std::vector< Document >
@@ -39,28 +57,6 @@ class RequestQueue
 
                     return found_docs;
                 }
-
-            template < typename SearchParameter >
-            std::vector< Document >
-            AddFindRequest(
-                    const std::string & raw_query,
-                    SearchParameter search_parameter )
-                {
-                    return AddFindRequest( raw_query, std::optional< SearchParameter >( search_parameter ) );
-                }
-
-            std::vector< Document >
-            AddFindRequest(
-                    const std::string & raw_query )
-                {
-                    return AddFindRequest( raw_query, []() -> std::optional< DocumentStatus > { return std::nullopt; }() );
-                }
-
-            int
-            GetNoResultRequests() const;
-
-
-        private:
 
             struct QueryResult
                 {
