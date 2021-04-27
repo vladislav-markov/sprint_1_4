@@ -35,8 +35,7 @@ RequestQueue::AddFindRequest(
         const std::string & raw_query,
         const DocumentStatus status )
     {
-        const std::vector< Document > found_documents
-                        = server_.FindTopDocuments( raw_query, status );
+        const std::vector< Document > found_documents = server_.FindTopDocuments( raw_query, status );
 
         UpdateRequestsResultInfo( found_documents );
 
@@ -47,8 +46,7 @@ std::vector< Document >
 RequestQueue::AddFindRequest(
         const std::string & raw_query )
     {
-        const std::vector< Document > found_documents
-                                    = server_.FindTopDocuments( raw_query );
+        const std::vector< Document > found_documents = server_.FindTopDocuments( raw_query );
 
         UpdateRequestsResultInfo( found_documents );
 
